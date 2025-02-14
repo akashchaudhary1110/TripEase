@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import heroIMG1 from "../images/heroIMG1.jpg";
+import heroIMG1 from "../images/heroIMG4.jpg";
 import heroIMG2 from "../images/heroIMG2.jpg";
-import heroIMG3 from "../images/heroIMG3.jpg";
-import heroIMG4 from "../images/heroIMG4.jpg";
+// import heroIMG3 from "../images/heroIMG6.jpg";
+import heroIMG4 from "../images/heroIMG7.jpg";
+import heroIMG5 from "../images/heroIMG5.jpg";
 
-const images = [heroIMG1, heroIMG2, heroIMG3, heroIMG4];
+const images = [heroIMG1, heroIMG2, heroIMG4,heroIMG5];
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
