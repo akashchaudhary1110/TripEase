@@ -10,10 +10,15 @@ import Signup from "./pages/Signup.js";
 import About from "./pages/AboutUs.js";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalProvider } from "./utils/GlobalContext.js";
+import Profile from "./pages/Profile.js";
 
 
 const App = () => {
   return (
+    <GlobalProvider>
+
+
     <Router>
       <ToastContainer theme="colored"/>
       <div className="bg-white dark:bg-black text-black dark:text-white min-h-screen">
@@ -29,10 +34,13 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+            
           </Routes>
         </motion.div>
       </div>
     </Router>
+    </GlobalProvider>
   );
 };
 

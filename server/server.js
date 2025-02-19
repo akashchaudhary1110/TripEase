@@ -5,6 +5,7 @@ const connectDB = require("./config/db.js");
 const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const errorHandler = require("./middleware/errorMiddleware.js");
+const uploadRoutes = require("./routes/imageUploadRoutes.js")
 // Load environment variables
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
     res.send(`<div>

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import bgImage from "../images/bgIMG1.jpg";
 import { loginfunction } from "../services/auth";
 import { toast, ToastContainer } from "react-toastify";
+import GlobalContext from "../utils/GlobalContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+const {state,dispatch} = useContext(GlobalContext);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -23,6 +24,7 @@ const Login = () => {
       if (response.status >199 && response.status<300) {
         toast.success("login successfully done");
         localStorage.setItem("authToken", response.data.token)
+dispatch({type: "LOGIN", payload: response.data});
         navigate("/");
       }else{
         throw error;
