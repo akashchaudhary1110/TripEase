@@ -8,14 +8,14 @@ import LandingPage from "./pages/LandingPage.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
 import About from "./pages/AboutUs.js";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 const App = () => {
   return (
     <Router>
-      <ToastContainer/>
+      <ToastContainer theme="colored"/>
       <div className="bg-white dark:bg-black text-black dark:text-white min-h-screen">
         <Navbar />
         <motion.div

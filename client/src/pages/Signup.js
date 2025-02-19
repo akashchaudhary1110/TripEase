@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import bgImage from "../images/heroIMG5.jpg";
 import { toast } from "react-toastify";
+import { signUpFunction } from "../services/auth";
 
 
 const Signup = () => {
@@ -15,7 +16,6 @@ const Signup = () => {
     };
   
     const handleSubmit = async (e) => {
-        alert(formData);
       e.preventDefault();
       if (formData.password !== formData.confirmPassword) {
         setError("Passwords do not match.");
@@ -23,12 +23,16 @@ const Signup = () => {
         return;
       }
       try {
-        const response = await axios.post("/api/signup", formData);
-        if (response.data.success) {
+        const response = await signUpFunction(formData);
+        console.log(response,"response of the signup");
+        
+        if (response.status>199 && response.status<300) {
+          toast.success("Signed Up successfully");
           navigate("/login");
         }
       } catch (err) {
         setError("Failed to create an account. Try again.");
+        toast.error("Failed to create an account. Try again.")
       }
     };
   

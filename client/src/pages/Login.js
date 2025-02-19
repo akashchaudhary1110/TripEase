@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import bgImage from "../images/bgIMG1.jpg";
+import { loginfunction } from "../services/auth";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -15,14 +17,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/login", formData);
-      if (response.data.success) {
-        navigate("/dashboard");
+      const response = await loginfunction(formData); // Corrected function call
+      console.log(response, "response");
+
+      if (response.status >199 && response.status<300) {
+        toast.success("login successfully done");
+        localStorage.setItem("authToken", response.data.token)
+        navigate("/");
+      }else{
+        throw error;
       }
     } catch (err) {
       setError("Invalid credentials. Please try again.");
+      toast.error(err || "there is some issue ");
     }
   };
+ 
 
   return (
     <div
