@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
         phone: { type: String },
         address: { type: String,  },
         encryptedPassword: { type: String, required: true },
+        profilePic:{type: String},
         plan: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plan" }],
     },
     { timestamps: true }

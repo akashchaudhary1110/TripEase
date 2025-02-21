@@ -18,10 +18,10 @@ const fetchUserById = async (req, res, next) => {
 // Update user by ID
 const updateUserById = async (req, res, next) => {
     try {
-        const { name, email } = req.body;
+        const { name, email,address,phone } = req.body;
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
-            { name, email },
+            { name, email,phone, address },
             { new: true }
         );
 
