@@ -18,6 +18,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    console.log(user, "user data from the global store")
     setUserData({
       name: user?.name || "",
       email: user?.email || "",
@@ -78,8 +79,8 @@ const Profile = () => {
           className="w-24 h-24 rounded-full border border-yellow-500"
         />
         <div>
-          <h2 className="text-2xl font-bold text-black">{user.name}</h2>
-          <p className="text-gray-600">{user.email}</p>
+          <h2 className="text-2xl font-bold text-black">{user?.name}</h2>
+          <p className="text-gray-600">{user?.email}</p>
         </div>
       </div>
 
@@ -87,8 +88,8 @@ const Profile = () => {
         <h3 className="text-lg font-semibold text-yellow-500">Contact Information</h3>
         {!editMode ? (
           <>
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p><strong>Address:</strong> {user.address}</p>
+            <p><strong>Phone:</strong> {user?.phone}</p>
+            <p><strong>Address:</strong> {user?.address}</p>
             <button
               onClick={() => setEditMode(true)}
               className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
