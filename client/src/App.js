@@ -14,6 +14,7 @@ import { GlobalProvider } from "./utils/GlobalContext.js";
 import Profile from "./pages/Profile.js";
 import Signup from "./pages/Signup.js";
 import Explore from "./pages/Explore.js";
+import HotelBooking from "./pages/HotelBooking.js";
 
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
 
     <Router>
       <ToastContainer theme="colored"/>
-      <div className="bg-white dark:bg-black text-black dark:text-white min-h-screen">
+      <div className="bg-gray-100 dark:bg-black text-black dark:text-white min-h-screen">
         <Navbar />
         <motion.div
           initial={{ opacity: 0 }}
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/booking/:hotelName" element={<HotelBooking />} />
             
           </Routes>
         </motion.div>

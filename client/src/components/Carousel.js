@@ -57,8 +57,8 @@ const Carousel = () => {
       {/* Overlay div with fade-in effect */}
       <motion.div
         key={currentIndex} // Change animation every time image changes
-        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20"
-        initial={{ scale: 0.8, opacity: 0 }}
+        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        initial={{ scale: 1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }} // Disappear smoothly before changing
         transition={{ duration: 3.5, ease: "easeOut" }} // Half the image animation time
