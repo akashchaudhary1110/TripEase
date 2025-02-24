@@ -6,12 +6,14 @@ import Navbar from "./components/Navbar.js";
 import "tailwindcss/tailwind.css";
 import LandingPage from "./pages/LandingPage.js";
 import Login from "./pages/Login.js";
-import Signup from "./pages/Signup.js";
+// import Signup from "./pages/Signup.js";
 import About from "./pages/AboutUs.js";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GlobalProvider } from "./utils/GlobalContext.js";
 import Profile from "./pages/Profile.js";
+import Signup from "./pages/Signup.js";
+import Explore from "./pages/Explore.js";
 
 
 const App = () => {
@@ -35,6 +37,7 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/explore" element={<Explore />} />
             
           </Routes>
         </motion.div>
