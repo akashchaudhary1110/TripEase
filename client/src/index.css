@@ -5,3 +5,30 @@
 
 
 
+/* Custom Popup Styling */
+.leaflet-popup-content-wrapper {
+    background-color: #eab308 !important; /* Yellow background */
+    color: black !important; /* Black text */
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .leaflet-popup-tip {
+    background-color: #eab308 !important; /* Yellow triangle tip */
+  }
+  
+  /* Custom Tooltip Styling */
+  .leaflet-tooltip {
+    background-color: #eab308 !important; /* Yellow background */
+    color: black !important; /* Black text */
+    font-weight: bold;
+    border-radius: 5px;
+    /* border: 1px solid black !important; */
+    padding: 5px;
+  }
+  
+
+
+
+
