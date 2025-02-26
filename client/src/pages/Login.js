@@ -18,22 +18,29 @@ const {state,dispatch} = useContext(GlobalContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginfunction(formData); // Corrected function call
-      console.log(response, "response");
+        const response = await loginfunction(formData);
+        console.log(response, "response");
 
-      if (response.status >199 && response.status<300) {
-        toast.success("login successfully done");
-        localStorage.setItem("authToken", response.data.token)
-dispatch({type: "LOGIN", payload: response.data});
-        navigate("/");
-      }else{
-        throw error;
-      }
+        if (response.status >= 200 && response.status < 300) {
+            toast.success("Login successful!");
+
+            // Store user & token in localStorage
+            localStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data));
+
+            // Update global context
+            dispatch({ type: "LOGIN", payload: response.data });
+
+            navigate("/");
+        } else {
+            throw new Error("Invalid credentials");
+        }
     } catch (err) {
-      setError("Invalid credentials. Please try again.");
-      toast.error(err || "there is some issue ");
+        setError("Invalid credentials. Please try again.");
+        toast.error(err.message || "There is some issue.");
     }
-  };
+};
+
  
 
   return (

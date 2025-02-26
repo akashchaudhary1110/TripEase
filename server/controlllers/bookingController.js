@@ -10,7 +10,7 @@ exports.createBooking = async (req, res) => {
         }
 
         const newBooking = new BookingDetails({
-            userID: req.user._id, // User ID from authMiddleware
+            userID: req.user._id, 
             hotelName,
             startingTime,
             endTime,

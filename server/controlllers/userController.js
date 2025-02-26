@@ -1,6 +1,5 @@
 const User = require("../models/User");
 
-// Fetch user by ID
 const fetchUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
@@ -15,13 +14,13 @@ const fetchUserById = async (req, res, next) => {
     }
 };
 
-// Update user by ID
+
 const updateUserById = async (req, res, next) => {
     try {
-        const { name, email,address,phone } = req.body;
+        const { name, email,address,phone,profilePic } = req.body;
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
-            { name, email,phone, address },
+            { name, email,phone, address,profilePic },
             { new: true }
         );
 

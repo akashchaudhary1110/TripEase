@@ -5,6 +5,7 @@ export const fetchUser = async (userId) => {
     try {
         const response = await API.get(`/api/user/fetchUser/${userId}`);
         console.log(response.data);
+        return response.data;
     } catch (error) {
         console.error(error.response.data);
     }

@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes.js");
 const errorHandler = require("./middleware/errorMiddleware.js");
 const uploadRoutes = require("./routes/imageUploadRoutes.js")
 const bookingRoutes = require("./routes/bookingRoutes.js")
+const itinerariesRoutes = require("./routes/iteneraryRoutes.js")
 // Load environment variables
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/itineraries", itinerariesRoutes);
+
 
 app.get("/", (req, res) => {
     res.send(`<div>
