@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import ItineraryModal from "./ItineraryModal";
 import MapView from "./MapView";
 import PlacesList from "./PlacesList";
+import { addPlaceToItinerary } from "../services/itineraryService";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const baseURL = "https://maps.gomaps.pro/maps/api/place/nearbysearch/json";
@@ -21,6 +22,7 @@ function NearbyPlaces({ coordinates }) {
   const [places, setPlaces] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [directionCoordinates , setDirectionCoordinates] = useState();
   const [keyWord, setKeyWord] = useState("hotel");
   const [mapKey, setMapKey] = useState(
     `${coordinates?.lat}-${coordinates?.lng}-${keyWord}`
@@ -65,17 +67,14 @@ function NearbyPlaces({ coordinates }) {
   const addToItinerary = async (itineraryId) => {
     if (!selectedPlace) return;
 
-    await axios.post(
-      `http://localhost:5000/api/itineraries/${itineraryId}/add-place`,
-      {
-        placeName: selectedPlace.name,
-        address: selectedPlace.vicinity,
-      }
-    );
-
-    setModalIsOpen(false);
-    alert("Place added to itinerary!");
-  };
+    try {
+        await addPlaceToItinerary(itineraryId, selectedPlace);
+        setModalIsOpen(false);
+        alert("Place added to itinerary!");
+    } catch (error) {
+        alert(error.message);
+    }
+};
 
   const openModal = (place) => {
     setSelectedPlace(place);
@@ -83,7 +82,7 @@ function NearbyPlaces({ coordinates }) {
   };
 
   return (
-    <div className="flex h-[90vh] ">
+    <div className="flex h-[90vh] overflow-hidden">
       <PlacesList
         categories={categories}
         error={error}
@@ -92,9 +91,10 @@ function NearbyPlaces({ coordinates }) {
         openModal={openModal}
         places={places}
         setKeyWord={setKeyWord}
+        setDirectionCoordinates = {setDirectionCoordinates}
       />
 
-      <MapView coordinates={coordinates} places={places} mapKey={mapKey} />
+      <MapView coordinates={coordinates} places={places} mapKey={mapKey} directionCoordinates={directionCoordinates} setDirectionCoordinates = {setDirectionCoordinates} />
       <ItineraryModal
         isOpen={modalIsOpen}
         onClose={() => setModalIsOpen(false)}

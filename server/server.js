@@ -8,10 +8,10 @@ const errorHandler = require("./middleware/errorMiddleware.js");
 const uploadRoutes = require("./routes/imageUploadRoutes.js")
 const bookingRoutes = require("./routes/bookingRoutes.js")
 const itinerariesRoutes = require("./routes/iteneraryRoutes.js")
-// Load environment variables
+
 dotenv.config();
 
-// Connect to database
+
 connectDB();
 
 const app = express();

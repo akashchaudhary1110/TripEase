@@ -1,13 +1,20 @@
 const express = require("express");
+const {
+    reorderItinerary,
+    createItinerary,
+    addPlaceToItinerary,
+    getItinerary,
+    getAllItineraries,
+} = require("../controlllers/itineraryController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const { reorderItinerary, createItinerary, addPlaceToItinerary, getItinerary, getAllItineraries } = require("../controlllers/itineraryController");
 const router = express.Router();
 
-router.post("/create", createItinerary);
-router.post("/:id/add-place", addPlaceToItinerary);
-router.get("/:id", getItinerary);
-router.put("/:id/reorder", reorderItinerary);
-router.get("/", getAllItineraries);
-
+// Apply authMiddleware to all routes
+router.post("/create", authMiddleware, createItinerary);
+router.post("/:id/add-place", authMiddleware, addPlaceToItinerary);
+router.get("/:id", authMiddleware, getItinerary);
+router.put("/:id/reorder", authMiddleware, reorderItinerary);
+router.get("/", authMiddleware, getAllItineraries);
 
 module.exports = router;

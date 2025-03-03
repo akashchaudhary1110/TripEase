@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { FaPlus, FaEye, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { fetchItineraries } from "../services/itineraryService"; // Import service
 
 const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
     const [itineraries, setItineraries] = useState([]);
-const navigate = useNavigate()
-    useEffect(() => {
-        if (isOpen) fetchItineraries();
-    }, [isOpen]);
+    const navigate = useNavigate();
 
-    const fetchItineraries = async () => {
-        const { data } = await axios.get("http://localhost:5000/api/itineraries");
-        setItineraries(data);
-    };
+    useEffect(() => {
+        if (isOpen) {
+            const loadItineraries = async () => {
+                try {
+                    const data = await fetchItineraries();
+                    setItineraries(data);
+                } catch (error) {
+                    console.error("Failed to load itineraries:", error.message);
+                }
+            };
+
+            loadItineraries();
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
 

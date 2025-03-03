@@ -9,9 +9,7 @@ const UserSchema = new mongoose.Schema(
         encryptedPassword: { type: String, required: true },
         profilePic: { type: String, default: "" },
         plan: [{ type: mongoose.Schema.Types.ObjectId, ref: "Plan" }],
-        itineraries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Itinerary" }] // Added field to store user-created itineraries
-    },
-    { timestamps: true }
+        itineraries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Itinerary" }]}
 );
 
 module.exports = mongoose.model("User", UserSchema);
