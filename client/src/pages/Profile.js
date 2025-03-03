@@ -1,32 +1,68 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import GlobalContext from "../utils/GlobalContext";
-import { updateUser } from "../services/user";
+import { fetchUser, updateUser } from "../services/user";
+import { toast } from "react-toastify";
 
 const Profile = () => {
-  const { state, dispatch } = useContext(GlobalContext);
-  const { user } = state;
+  const { state } = useContext(GlobalContext);
+  const userId = state?.user?.userId; // Get user ID from context
 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(user?.profilePic || "/default-avatar.png");
+  const [previewImage, setPreviewImage] = useState("/default-avatar.png");
+
   const [userData, setUserData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    address: user?.address || "",
-    profilePic: user?.profilePic || "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    profilePic: "",
   });
 
+
+  useEffect(()=>{
+    console.log(state.user.userId,"user in the profile")
+  })
+
+  // Fetch user details from backend
   useEffect(() => {
-    console.log(user, "user data from the global store")
-    setUserData({
-      name: user?.name || "",
-      email: user?.email || "",
-      phone: user?.phone || "",
-      address: user?.address || "",
-      profilePic: user?.profilePic || "",
-    });
-  }, [user]);
+    console.log(userId,"userID");
+    
+    const loadUser = async () => {
+      if (!userId) {
+        setError("User ID not found. Please log in again.");
+        setLoading(false);
+        return;
+      }
+      try {
+        setLoading(true);
+        const response = await fetchUser(userId);
+        console.log(response,"response")
+        if (response) {
+          setUser(response);
+          setUserData({
+            name: response.name || "",
+            email: response.email || "",
+            phone: response.phone || "",
+            address: response.address || "",
+            profilePic: response.profilePic || "",
+          });
+          setPreviewImage(response.profilePic || "/default-avatar.png");
+        } else {
+          throw new Error("User not found");
+        }
+      } catch (err) {
+        setError(err.message || "Failed to fetch user data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUser();
+  }, [userId]);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -49,7 +85,7 @@ const Profile = () => {
         const formData = new FormData();
         formData.append("image", image);
 
-        // Upload image to Cloudinary
+        // Upload image to backend
         const res = await fetch("http://localhost:5000/api/upload", {
           method: "POST",
           body: formData,
@@ -62,13 +98,18 @@ const Profile = () => {
       }
 
       const updatedData = { ...userData, profilePic: imageUrl };
-      await updateUser(user.userId, updatedData);
-      dispatch({ type: "LOGIN", payload: updatedData });
+      await updateUser(userId, updatedData);
+      setUser(updatedData);
       setEditMode(false);
+      toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating user:", error);
+      toast.error("Failed to update profile. Please try again.");
     }
   };
+
+  if (loading) return <p className="text-center text-gray-600">Loading...</p>;
+  if (error) return <p className="text-center text-red-600">{error}</p>;
 
   return (
     <div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow-lg rounded-lg border border-yellow-500">

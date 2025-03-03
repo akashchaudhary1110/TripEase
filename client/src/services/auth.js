@@ -1,5 +1,6 @@
-import { BaseURL } from "./baseURL";
+
 import axios from "axios";
+import { BaseURL } from "./baseURL";
 
 // Fetch API URL from environment variables
 const API_URL = `${BaseURL}/api/auth`;
