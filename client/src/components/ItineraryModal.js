@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaPlus, FaEye, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { fetchItineraries } from "../services/itineraryService"; // Import service
+import { deleteItinerary, fetchItineraries } from "../services/itineraryService"; // Import service
 
 const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
     const [itineraries, setItineraries] = useState([]);
@@ -24,6 +24,18 @@ const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
     }, [isOpen]);
 
     if (!isOpen) return null;
+
+
+      const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this itinerary?")) return;
+        
+        try {
+          await deleteItinerary(id);
+          setItineraries((prev) => prev.filter((itinerary) => itinerary._id !== id));
+        } catch (error) {
+          alert("Failed to delete itinerary");
+        }
+      };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]" onClick={onClose}>
@@ -70,7 +82,7 @@ const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
                                     whileHover={{ y: [-3, 3] }}
                                     transition={{ repeat: Infinity, duration: 0.4, ease: "easeInOut" }}
                                 >
-                                    <FaTrash className="hover:text-black text-yellow-500 cursor-pointer" title="Delete" />
+              <FaTrash onClick={() => handleDelete(itinerary._id)} className="hover:text-black text-yellow-500 cursor-pointer" title="Delete" />
                                 </motion.div>
                             </div>
                         </motion.li>

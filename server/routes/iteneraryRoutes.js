@@ -5,6 +5,7 @@ const {
     addPlaceToItinerary,
     getItinerary,
     getAllItineraries,
+    deleteItinerary,
 } = require("../controlllers/itineraryController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -16,5 +17,6 @@ router.post("/:id/add-place", authMiddleware, addPlaceToItinerary);
 router.get("/:id", authMiddleware, getItinerary);
 router.put("/:id/reorder", authMiddleware, reorderItinerary);
 router.get("/", authMiddleware, getAllItineraries);
+router.delete("/delete/:id", authMiddleware, deleteItinerary);
 
 module.exports = router;

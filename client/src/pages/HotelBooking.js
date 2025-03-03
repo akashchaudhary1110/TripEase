@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { bookHotel } from "../services/hotelBooking";
 import GlobalContext from "../utils/GlobalContext";
-import PersonForm from "../components/PersonForm";
 import useHotelBookingValidation from "../hooks/useHotelBookingValidation";
 import HotelBookingForm from "./HotelBookingForm";
 

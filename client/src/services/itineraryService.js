@@ -110,3 +110,15 @@ export const addPlaceToItinerary = async (itineraryId, place) => {
     );
   }
 };
+
+
+export const deleteItinerary = async (itineraryId) => {
+    try {
+      const response = await API.delete(`/api/itineraries/delete/${itineraryId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting itinerary:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Failed to delete itinerary");
+    }
+  };
+  

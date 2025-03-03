@@ -78,3 +78,23 @@ exports.reorderItinerary = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Delete an itinerary
+exports.deleteItinerary = async (req, res) => {
+    try {
+        const itinerary = await Itinerary.findById(req.params.id);
+        if (!itinerary) {
+            return res.status(404).json({ message: "Itinerary not found" });
+        }
+
+        // Ensure only the owner can delete their itinerary
+        if (itinerary.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Not authorized to delete this itinerary" });
+        }
+
+        await Itinerary.findByIdAndDelete(req.params.id);
+        res.json({ message: "Itinerary deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

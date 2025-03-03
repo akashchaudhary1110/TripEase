@@ -60,9 +60,7 @@ export default function MapView({
   const [mapView, setMapView] = useState("Roadmap");
   const [currentLocation, setCurrentLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const [showDirections, setRouteInstructions] = useState(); // ✅ Controls visibility of route text
-
-  // Fetch user's current location using geolocation
+  const [showDirections, setRouteInstructions] = useState(); 
   useEffect(() => {
     if (!navigator.geolocation) {
       setLocationError("Geolocation is not supported by your browser.");
