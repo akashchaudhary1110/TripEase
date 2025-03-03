@@ -1,26 +1,36 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
+import GlobalContext from "../utils/GlobalContext";
+import { createItinerary } from "../services/itineraryService";
 
 const CreateItineraryModal = ({ isOpen, onClose }) => {
+    const { state } = useContext(GlobalContext);
+    const userId = state.user?.userId; // Ensure user ID exists
     const [title, setTitle] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
 
     const handleCreateItinerary = async () => {
         if (!title.trim()) {
             setError("Itinerary title is required.");
             return;
         }
+        if (!userId) {
+            setError("User not authenticated. Please log in.");
+            return;
+        }
 
         setLoading(true);
         try {
-            const userId = "user123"; // Replace with actual logged-in user ID
-            await axios.post("http://localhost:5000/api/itineraries/create", { title, user: userId });
+            await createItinerary(title, userId);
             setLoading(false);
             onClose(); // Close modal on success
         } catch (err) {
-            setError("Failed to create itinerary.");
+            setError(err.message);
             setLoading(false);
         }
     };

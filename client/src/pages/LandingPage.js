@@ -6,7 +6,7 @@ const LandingPage = () => {
   return (
     <>
     <Carousel/>
-    <CityCoordinates/>
+    {/* <CityCoordinates/> */}
     </>
   )
 }

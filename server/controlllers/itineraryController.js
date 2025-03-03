@@ -14,7 +14,7 @@ exports.getAllItineraries = async (req, res) => {
 exports.createItinerary = async (req, res) => {
     try {
         const { title } = req.body;
-        const userId = req.user.id; // Assuming req.user is available from authentication middleware
+        const userId = req.user.id; // Extract userId from req.user
 
         if (!title) {
             return res.status(400).json({ message: "Title is required" });
@@ -28,6 +28,7 @@ exports.createItinerary = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Add a place to an itinerary
 exports.addPlaceToItinerary = async (req, res) => {

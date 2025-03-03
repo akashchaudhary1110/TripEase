@@ -33,7 +33,7 @@ function CityCoordinates() {
     };
 
     return (
-        <div className="p-4">
+        <div className="p-4 overflow-hidden">
             <div className="flex w-full justify-between">
                 <div>
                     <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter city name" className="border p-2 mr-2"/>

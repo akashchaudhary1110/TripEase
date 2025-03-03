@@ -10,7 +10,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-const {state,dispatch} = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -18,30 +18,28 @@ const {state,dispatch} = useContext(GlobalContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await loginfunction(formData);
-        console.log(response, "response");
+      const response = await loginfunction(formData);
+      console.log(response, "response");
 
-        if (response.status >= 200 && response.status < 300) {
-            toast.success("Login successful!");
+      if (response.status >= 200 && response.status < 300) {
+        toast.success("Login successful!");
 
-            // Store user & token in localStorage
-            localStorage.setItem("authToken", response.data.token);
-            localStorage.setItem("user", JSON.stringify(response.data));
+        // Store user & token in localStorage
+        localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data));
 
-            // Update global context
-            dispatch({ type: "LOGIN", payload: response.data });
+        // Update global context
+        dispatch({ type: "LOGIN", payload: response.data });
 
-            navigate("/");
-        } else {
-            throw new Error("Invalid credentials");
-        }
+        navigate("/");
+      } else {
+        throw new Error("Invalid credentials");
+      }
     } catch (err) {
-        setError("Invalid credentials. Please try again.");
-        toast.error(err.message || "There is some issue.");
+      setError("Invalid credentials. Please try again.");
+      toast.error(err.message || "There is some issue.");
     }
-};
-
- 
+  };
 
   return (
     <div

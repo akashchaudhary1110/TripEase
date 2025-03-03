@@ -1,7 +1,17 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
+import { useState, useEffect, useRef } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Tooltip,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine";
+import RoutingLayer from "./RoutingLayer";
+import MapContainerBOX from "./MapContainer";
 
 const mapViews = {
   Roadmap: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -11,6 +21,7 @@ const mapViews = {
   Hybrid: "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
 };
 
+// Your existing custom marker
 const customIcon = new L.Icon({
   iconUrl:
     "data:image/svg+xml;base64," +
@@ -25,12 +36,77 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -35],
 });
 
-export default function MapView({ coordinates, places, mapKey }) {
+const yellowMarkerIcon = new L.Icon({
+  iconUrl:
+    "data:image/svg+xml;base64," +
+    btoa(`
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' width='32' height='40'>
+      <path fill='#EAB308' stroke='black' stroke-width='2' d='M16 0C9 0 3 6 3 13c0 9.5 11.5 21 12.5 22 .5.5 1 .5 1.5 0C17.5 34 29 22.5 29 13 29 6 23 0 16 0z'/>
+      <circle cx='16' cy='13' r='5' fill='black'/>
+    </svg>
+  `),
+  iconSize: [32, 40],
+  iconAnchor: [16, 40],
+  popupAnchor: [0, -35],
+});
+
+export default function MapView({
+  coordinates,
+  places,
+  mapKey,
+  directionCoordinates,
+  setDirectionCoordinates,
+}) {
   const [mapView, setMapView] = useState("Roadmap");
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
+  const [showDirections, setRouteInstructions] = useState(); // ✅ Controls visibility of route text
+
+  // Fetch user's current location using geolocation
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCurrentLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setLocationError(null);
+      },
+      (error) => {
+        console.error("Error fetching location:", error);
+        if (error.code === 1) {
+          setLocationError(
+            "Location access denied. Please allow it in browser settings."
+          );
+        } else if (error.code === 2) {
+          setLocationError("Location unavailable. Try again later.");
+        } else if (error.code === 3) {
+          setLocationError(
+            "Location request timed out. Refresh and try again."
+          );
+        } else {
+          setLocationError("An unknown error occurred.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, []);
 
   return (
     <div className="w-[60%] h-[80%] border relative flex flex-col">
-      {/* Map View Selector - Fixed on Top */}
+      {/* Error Message */}
+      {locationError && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-2 rounded-md shadow-lg z-50">
+          {locationError}
+        </div>
+      )}
+
+      {/* Map View Selector */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 bg-black p-2 bg-opacity-30 rounded-lg shadow-md">
         {Object.keys(mapViews).map((view) => (
           <button
@@ -47,36 +123,27 @@ export default function MapView({ coordinates, places, mapKey }) {
         ))}
       </div>
 
-      {/* Map Container - Ensure it doesn't overlap */}
+      {directionCoordinates && (
+        <button
+          onClick={() => setDirectionCoordinates(null)}
+          className="absolute top-4 left-4 z-50 bg-red-500 text-white px-3 py-1 rounded-md shadow-md"
+        >
+          ✖ Clear Directions
+        </button>
+      )}
+
       {coordinates && (
-        <div className="w-[100%] h-[100%] relative z-0">
-          <MapContainer
-            key={mapKey}
-            center={[coordinates.lat, coordinates.lng]}
-            zoom={14}
-            className="w-full h-full"
-          >
-            <TileLayer url={mapViews[mapView]} />
-            {places.map((place) => (
-              <Marker
-                key={place?.plus_code?.global_code}
-                position={[
-                  place.geometry.location.lat,
-                  place.geometry.location.lng,
-                ]}
-                icon={customIcon}
-              >
-                <Popup>
-                  <strong>{place.name}</strong> <br />
-                  {place.vicinity}
-                </Popup>
-                <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-                  {place.name}
-                </Tooltip>
-              </Marker>
-            ))}
-          </MapContainer>
-        </div>
+        <MapContainerBOX
+          coordinates={coordinates}
+          currentLocation={currentLocation}
+          customIcon={customIcon}
+          directionCoordinates={directionCoordinates}
+          mapKey={mapKey}
+          mapView={mapView}
+          mapViews={mapViews}
+          places={places}
+          yellowMarkerIcon={yellowMarkerIcon}
+        />
       )}
     </div>
   );

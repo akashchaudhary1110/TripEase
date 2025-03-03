@@ -22,15 +22,14 @@ const Profile = () => {
     profilePic: "",
   });
 
-
-  useEffect(()=>{
-    console.log(state.user.userId,"user in the profile")
-  })
+  useEffect(() => {
+    console.log(state.user.userId, "user in the profile");
+  });
 
   // Fetch user details from backend
   useEffect(() => {
-    console.log(userId,"userID");
-    
+    console.log(userId, "userID");
+
     const loadUser = async () => {
       if (!userId) {
         setError("User ID not found. Please log in again.");
@@ -40,7 +39,7 @@ const Profile = () => {
       try {
         setLoading(true);
         const response = await fetchUser(userId);
-        console.log(response,"response")
+        console.log(response, "response");
         if (response) {
           setUser(response);
           setUserData({
@@ -126,11 +125,17 @@ const Profile = () => {
       </div>
 
       <div className="mt-4">
-        <h3 className="text-lg font-semibold text-yellow-500">Contact Information</h3>
+        <h3 className="text-lg font-semibold text-yellow-500">
+          Contact Information
+        </h3>
         {!editMode ? (
           <>
-            <p><strong>Phone:</strong> {user?.phone}</p>
-            <p><strong>Address:</strong> {user?.address}</p>
+            <p>
+              <strong>Phone:</strong> {user?.phone}
+            </p>
+            <p>
+              <strong>Address:</strong> {user?.address}
+            </p>
             <button
               onClick={() => setEditMode(true)}
               className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
@@ -175,8 +180,15 @@ const Profile = () => {
 
             {/* Image Upload */}
             <div>
-              <label className="block font-semibold text-gray-700">Profile Picture</label>
-              <input type="file" accept="image/*" onChange={handleImageChange} className="mt-2" />
+              <label className="block font-semibold text-gray-700">
+                Profile Picture
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="mt-2"
+              />
             </div>
 
             <div className="flex space-x-2">
