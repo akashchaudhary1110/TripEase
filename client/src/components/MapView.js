@@ -1,16 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Tooltip,
-  useMap,
-} from "react-leaflet";
+import { useState, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
-import RoutingLayer from "./RoutingLayer";
 import MapContainerBOX from "./MapContainer";
 
 const mapViews = {
@@ -21,7 +12,6 @@ const mapViews = {
   Hybrid: "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
 };
 
-// Your existing custom marker
 const customIcon = new L.Icon({
   iconUrl:
     "data:image/svg+xml;base64," +
@@ -60,9 +50,7 @@ export default function MapView({
   const [mapView, setMapView] = useState("Roadmap");
   const [currentLocation, setCurrentLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const [showDirections, setRouteInstructions] = useState(); // ✅ Controls visibility of route text
 
-  // Fetch user's current location using geolocation
   useEffect(() => {
     if (!navigator.geolocation) {
       setLocationError("Geolocation is not supported by your browser.");
@@ -99,14 +87,12 @@ export default function MapView({
 
   return (
     <div className="w-[60%] h-[80%] border relative flex flex-col">
-      {/* Error Message */}
       {locationError && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-2 rounded-md shadow-lg z-50">
           {locationError}
         </div>
       )}
 
-      {/* Map View Selector */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 bg-black p-2 bg-opacity-30 rounded-lg shadow-md">
         {Object.keys(mapViews).map((view) => (
           <button

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { FaSpinner, FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { FaSpinner} from "react-icons/fa";
 import CardIMG from "../images/cardIMG1.jpg";
 import PlaceListCard from "./PlaceListCard";
 import CategorySelector from "./CategorySelector";
@@ -15,7 +14,6 @@ export default function PlacesList({
   openModal,
   setDirectionCoordinates,
 }) {
-  const navigate = useNavigate();
   return (
     <div className="w-[40%] h-[80%]  p-4 overflow-y-auto border ">
       <CategorySelector

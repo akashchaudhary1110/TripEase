@@ -5,7 +5,7 @@ import { createItinerary } from "../services/itineraryService";
 
 const CreateItineraryModal = ({ isOpen, onClose }) => {
     const { state } = useContext(GlobalContext);
-    const userId = state.user?.userId; // Ensure user ID exists
+    const userId = state.user?.userId; 
     const [title, setTitle] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -28,7 +28,7 @@ const CreateItineraryModal = ({ isOpen, onClose }) => {
         try {
             await createItinerary(title, userId);
             setLoading(false);
-            onClose(); // Close modal on success
+            onClose(); 
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -45,7 +45,7 @@ const CreateItineraryModal = ({ isOpen, onClose }) => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 className="bg-white w-1/3 p-6 rounded-xl shadow-lg border-4 border-yellow-500 z-[10000]"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+                onClick={(e) => e.stopPropagation()} 
             >
                 <h2 className="text-2xl font-bold text-black mb-4">Create New Itinerary</h2>
                 

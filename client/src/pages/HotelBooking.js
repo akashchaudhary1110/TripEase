@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { bookHotel } from "../services/hotelBooking";
 import GlobalContext from "../utils/GlobalContext";
-import PersonForm from "../components/PersonForm";
 import useHotelBookingValidation from "../hooks/useHotelBookingValidation";
 import HotelBookingForm from "./HotelBookingForm";
 
@@ -15,7 +13,7 @@ const HotelBooking = () => {
   const [nights, setNights] = useState(0);
   const [personsCount, setPersonsCount] = useState(0);
   const [Index, setIndex] = useState();
-  const [keyword, setKeyword] = useState();
+  // const [keyword, setKeyword] = useState();
   const [dates, setDates] = useState({ from: "", to: "" });
   const [personsDetail, setPersonsDetail] = useState([
     { name: "", phone: "", adhaar: "", gender: "" },
@@ -70,7 +68,7 @@ const navigate = useNavigate();
 
   const handleChange = (index, field, value, name) => {
     setIndex(index);
-    setKeyword(field);
+    // setKeyword(field);
     validateForm(index);
     const updatedPersons = [...personsDetail];
 
