@@ -13,7 +13,7 @@ const useHotelBookingValidation = (dates, personsCount, personsDetail, Index) =>
         gender: "",
       }))
     );
-  }, [personsDetail.length]); 
+  }, [personsDetail.length, personsDetail]); 
  
 
   const validateForm = (index = null) => {

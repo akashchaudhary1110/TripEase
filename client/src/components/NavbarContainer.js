@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
 import logo from "../images/navLogo-2.png";
 import ProfileMenu from "./ProfileMenu";
 import NavbarDrawer from "./NavbarDrawer";
@@ -10,7 +9,7 @@ const NavbarContainer = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
   const menuRef = useRef(null);
-  const location = useLocation();
+ 
 
   const handleClickOutside = useCallback((event) => {
     if (

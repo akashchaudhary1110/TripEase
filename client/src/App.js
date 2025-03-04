@@ -23,7 +23,7 @@ const App = () => {
       <Router>
         <ToastContainer theme="colored" />
         <div className="bg-gray-100 dark:bg-black text-black dark:text-white min-h-screen">
-          <NavbarContainer/>
+          <NavbarContainer />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -34,14 +34,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/about" element={<About />} />
-              <Route
-                path="/explore"
-                element={
-                  <ProtectedRoute>
-                    <Explore />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/explore" element={<Explore />} />
               <Route
                 path="/booking/:hotelName"
                 element={

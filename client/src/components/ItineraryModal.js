@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaPlus, FaEye, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { deleteItinerary, fetchItineraries } from "../services/itineraryService"; // Import service
+import { deleteItinerary, fetchItineraries } from "../services/itineraryService";
 
 const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
     const [itineraries, setItineraries] = useState([]);
@@ -45,7 +45,7 @@ const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 className="bg-white w-2/3 h-2/3 p-6 rounded-xl shadow-lg border-4 border-yellow-500 z-[10000]"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+                onClick={(e) => e.stopPropagation()}
             >
                 <h2 className="text-2xl font-bold text-black mb-4">Select an Itinerary</h2>
                 <ul className="space-y-2">
@@ -56,7 +56,7 @@ const ItineraryModal = ({ isOpen, onClose, onSelect }) => {
                             whileHover={{
                                 scale: 1.01, 
                                 boxShadow: "0px 5px 15px rgba(0,0,0,0.2)",
-                                backgroundColor: "#f3f4f6" // Light yellow background on hover
+                                backgroundColor: "#f3f4f6"
                             }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                         >

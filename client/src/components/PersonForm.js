@@ -2,8 +2,6 @@ const PersonForm = ({ index, person, handleChange, errors }) => {
     return (
       <div className="border p-6 mt-4 bg-white rounded-lg shadow-lg">
         <h3 className="text-lg font-semibold text-yellow-600 mb-3">Person {index + 1}</h3>
-  
-        {/* Name Field */}
         <div className="mb-4">
           <label className="block font-medium text-gray-700">Full Name</label>
           <input
@@ -16,8 +14,6 @@ const PersonForm = ({ index, person, handleChange, errors }) => {
           />
           {errors?.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
         </div>
-  
-        {/* Phone Field */}
         <div className="mb-4">
           <label className="block font-medium text-gray-700">Phone Number</label>
           <input
@@ -30,8 +26,6 @@ const PersonForm = ({ index, person, handleChange, errors }) => {
           />
           {errors?.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
         </div>
-  
-        {/* Aadhar Field */}
         <div className="mb-4">
           <label className="block font-medium text-gray-700">Aadhar Number</label>
           <input
@@ -44,8 +38,6 @@ const PersonForm = ({ index, person, handleChange, errors }) => {
           />
           {errors?.aadhar && <p className="text-red-600 text-sm mt-1">{errors.aadhar}</p>}
         </div>
-  
-        {/* Gender Field */}
         <div className="mb-2">
           <label className="block font-medium text-gray-700">Gender</label>
           <select

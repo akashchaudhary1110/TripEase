@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ProfileMenu = ({profileMenuRef , closeProfileMenu, handleSignOut}) => {
   return (
     <div
-    ref={profileMenuRef} // Attach ref to the profile menu
+    ref={profileMenuRef}
     className="absolute right-0 top-16 bg-white shadow-lg border rounded-md w-40 p-4"
   >
     <ul className="flex flex-col items-start py-2 space-y-2 text-black font-semibold">

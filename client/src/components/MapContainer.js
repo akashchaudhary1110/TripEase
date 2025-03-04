@@ -1,5 +1,5 @@
 import React from 'react';
-import { TileLayer, Marker, Popup, Tooltip, useMap, MapContainer } from "react-leaflet";
+import { TileLayer, Marker, Popup, Tooltip,  MapContainer } from "react-leaflet";
 import RoutingLayer from './RoutingLayer';
 
 
@@ -16,7 +16,7 @@ const MapContainerBOX = ({mapKey, coordinates, currentLocation ,mapViews, mapVie
         </Marker>
       )}
 
-      {/* Show Place Markers if No Directions are Active */}
+     
       {!directionCoordinates &&
         places.map((place) => (
           <Marker
@@ -34,7 +34,7 @@ const MapContainerBOX = ({mapKey, coordinates, currentLocation ,mapViews, mapVie
           </Marker>
         ))}
 
-      {/* Show Route if directionCoordinates Exist */}
+      
       {currentLocation && directionCoordinates && (
         <RoutingLayer start={currentLocation} end={directionCoordinates} directionCoordinates={directionCoordinates} yellowMarkerIcon={yellowMarkerIcon} />
       )}

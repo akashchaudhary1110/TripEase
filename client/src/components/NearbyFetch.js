@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import ItineraryModal from "./ItineraryModal";
 import MapView from "./MapView";
 import PlacesList from "./PlacesList";
 import { addPlaceToItinerary } from "../services/itineraryService";
+import useCheckAndProceed from "../hooks/useCheckAndProceed";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const baseURL = "https://maps.gomaps.pro/maps/api/place/nearbysearch/json";
@@ -18,7 +18,6 @@ const categories = [
 ];
 
 function NearbyPlaces({ coordinates }) {
-  const navigate = useNavigate();
   const [places, setPlaces] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,16 +28,13 @@ function NearbyPlaces({ coordinates }) {
   );
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const checkAndProceed = useCheckAndProceed();
 
-  useEffect(() => {
-    if (!coordinates) return;
-    fetchNearbyPlaces();
-  }, [coordinates, keyWord]);
 
-  const fetchNearbyPlaces = async () => {
+  const fetchNearbyPlaces = useCallback(async () => {
     setLoading(true);
     setError("");
-
+  
     try {
       const response = await axios.get(baseURL, {
         params: {
@@ -48,21 +44,27 @@ function NearbyPlaces({ coordinates }) {
           key: API_KEY,
         },
       });
-
+  
       if (response.data.status === "OK") {
         setPlaces(response.data.results);
         setMapKey(`${coordinates.lat}-${coordinates.lng}-${keyWord}`);
       } else {
-        setError(`Unable to fetch data. Please try again later.`);
+        setError("Unable to fetch data. Please try again later.");
         setPlaces([]);
       }
     } catch (error) {
       setError("Error fetching nearby places: " + error.message);
       setPlaces([]);
     }
-
+  
     setLoading(false);
-  };
+  }, [coordinates, keyWord]);
+  
+  
+  useEffect(() => {
+    if (!coordinates) return;
+    fetchNearbyPlaces();
+  }, [coordinates, keyWord ,fetchNearbyPlaces]);
 
   const addToItinerary = async (itineraryId) => {
     if (!selectedPlace) return;
@@ -76,10 +78,12 @@ function NearbyPlaces({ coordinates }) {
     }
 };
 
-  const openModal = (place) => {
+const openModal = (place) => {
+  checkAndProceed(() => {
     setSelectedPlace(place);
     setModalIsOpen(true);
-  };
+  });
+};
 
   return (
     <div className="flex h-[90vh] overflow-hidden">

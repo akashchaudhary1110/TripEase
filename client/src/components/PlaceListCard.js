@@ -1,67 +1,75 @@
-import React from 'react'
+import React from "react";
 import { motion } from "framer-motion";
-import { FaSpinner, FaPlus } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { FaRoute, FaHotel,  FaClipboardList, } from "react-icons/fa";
 
-const PlaceListCard = ({places,CardIMG, setDirectionCoordinates, keyWord,openModal
+import { useNavigate } from "react-router-dom";
+import useCheckAndProceed from "../hooks/useCheckAndProceed";
 
-}) => {
+const PlaceListCard = ({ places, CardIMG, setDirectionCoordinates, keyWord, openModal }) => {
+  const navigate = useNavigate();
+  const checkAndProceed = useCheckAndProceed();
 
-    const navigate = useNavigate();
+  const handleBooking = (place) => {
+    checkAndProceed(() => {
+      navigate(`/booking/${place?.name}`);
+    });
+  };
+
   return (
     <motion.div
-          className="space-y-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+      className="grid grid-cols-1 gap-6 w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+    >
+      {places.map((place) => (
+        <motion.div
+          key={place.place_id}
+          className="bg-white rounded-xl shadow-lg p-4 flex flex-col justify-between border border-gray-200 hover:shadow-xl transition-all w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          whileHover={{ scale: 1.02 }}
         >
-          {places.map((place) => (
-            <motion.div
-              key={place.place_id}
-              className="bg-white rounded-xl shadow-md p-3 flex flex-col justify-between"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ scale: 1.01 }}
-            >
-              <div className="overflow-hidden rounded-lg">
-                <motion.img
-                  src={CardIMG}
-                  alt={place.name}
-                  className="w-full h-32 object-cover rounded-lg hover:scale-110 border"
-                />
-              </div>
-              <h3 className="text-lg font-bold text-black mt-2">
-                {place.name}
-              </h3>
-              <p className="text-sm text-gray-600">{place.vicinity}</p>
-              <button onClick={() => {
-    console.log(place.geometry.location, "place");
-    setDirectionCoordinates(place.geometry.location);
-}}>
-    Directions
-</button>
+          <div className="overflow-hidden rounded-lg">
+            <motion.img
+              src={CardIMG}
+              alt={place.name}
+              className="w-full h-48 object-cover rounded-lg hover:scale-105 transition"
+            />
+          </div>
 
-              {keyWord === "hotel" && (
-                <button
-                  onClick={() => navigate(`/booking/${place?.name}`)}
-                  className="mt-3 bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg text-center hover:bg-yellow-600 transition"
-                >
-                  Book Now
-                </button>
-              )}
-              {keyWord === "tourist attraction" && (
-                <button
-                  onClick={() => openModal(place)}
-                  className="bg-green-500 text-white px-4 py-2 flex items-center"
-                >
-                  <FaPlus className="mr-2" /> Add
-                </button>
-              )}
-            </motion.div>
-          ))}
+          <div className="mt-3 text-center">
+            <h3 className="text-xl font-bold text-gray-900">{place.name}</h3>
+            <p className="text-sm text-gray-600">{place.vicinity}</p>
+          </div>
+
+          <div className="mt-4 flex justify-center items-center gap-10 border-t pt-3">
+            <FaRoute
+              className="text-blue-600 text-3xl cursor-pointer hover:text-blue-800 transition"
+              title="Get Directions"
+              onClick={() => setDirectionCoordinates(place.geometry.location)}
+            />
+
+            {keyWord === "hotel" && (
+              <FaHotel
+                className="text-yellow-500 text-3xl cursor-pointer hover:text-yellow-600 transition"
+                title="Book Hotel"
+                onClick={() => handleBooking(place)}
+              />
+            )}
+            {keyWord === "tourist attraction" && (
+             <FaClipboardList
+             className="text-green-500 text-3xl cursor-pointer hover:text-green-600 transition"
+             title="Add to Itinerary"
+             onClick={() => openModal(place)}
+           />
+            )}
+          </div>
         </motion.div>
-  )
-}
+      ))}
+    </motion.div>
+  );
+};
 
-export default PlaceListCard
+export default PlaceListCard;
