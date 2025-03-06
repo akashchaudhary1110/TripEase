@@ -5,7 +5,7 @@ import "tailwindcss/tailwind.css";
 import LandingPage from "./pages/LandingPage.js";
 import Login from "./pages/Login.js";
 import About from "./pages/AboutUs.js";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import NavbarContainer from "./components/NavbarContainer.js";
 import "react-toastify/dist/ReactToastify.css";
 import { GlobalProvider } from "./utils/GlobalContext.js";

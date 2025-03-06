@@ -1,14 +1,19 @@
 const Itinerary = require("../models/Itenerary");
 
-// Get all itineraries
+// Get all itineraries of the logged-in user
 exports.getAllItineraries = async (req, res) => {
     try {
-        const itineraries = await Itinerary.find().populate("user", "name email"); // Populate user details
+        const userId = req.user.id; // Extract logged-in user ID
+
+        const itineraries = await Itinerary.find({ user: userId }) // Fetch only the user's itineraries
+            .populate("user", "name email"); // Populate user details
+
         res.json(itineraries);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Create a new itinerary
 exports.createItinerary = async (req, res) => {
