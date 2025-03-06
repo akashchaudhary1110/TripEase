@@ -2,11 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import GlobalContext from "../utils/GlobalContext";
 import { fetchUser, updateUser } from "../services/user";
 import { toast } from "react-toastify";
+import UserBookings from "../components/UserBookings";
+import ProfileData from "../components/ProfileData";
 
 const Profile = () => {
   const { state } = useContext(GlobalContext);
-  const userId = state?.user?.userId; // Get user ID from context
-
+  const userId = state?.user?.userId;
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,13 +24,6 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    console.log(state.user.userId, "user in the profile");
-  });
-
-  // Fetch user details from backend
-  useEffect(() => {
-    console.log(userId, "userID");
-
     const loadUser = async () => {
       if (!userId) {
         setError("User ID not found. Please log in again.");
@@ -39,7 +33,6 @@ const Profile = () => {
       try {
         setLoading(true);
         const response = await fetchUser(userId);
-        console.log(response, "response");
         if (response) {
           setUser(response);
           setUserData({
@@ -71,7 +64,7 @@ const Profile = () => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setPreviewImage(URL.createObjectURL(file)); // Show preview before uploading
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
@@ -111,103 +104,14 @@ const Profile = () => {
   if (error) return <p className="text-center text-red-600">{error}</p>;
 
   return (
-    <div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow-lg rounded-lg border border-yellow-500">
-      <div className="flex items-center space-x-4">
-        <img
-          src={previewImage}
-          alt="Profile"
-          className="w-24 h-24 rounded-full border border-yellow-500"
-        />
-        <div>
-          <h2 className="text-2xl font-bold text-black">{user?.name}</h2>
-          <p className="text-gray-600">{user?.email}</p>
-        </div>
-      </div>
+    <div className="flex flex-col md:flex-row items-start max-w-6xl mx-auto mt-10 gap-6">
+  
+      <ProfileData editMode={editMode} handleChange={handleChange} handleImageChange={handleImageChange} handleSubmit={handleSubmit} previewImage={previewImage} setEditMode={setEditMode} user={user} userData={userData} />
 
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold text-yellow-500">
-          Contact Information
-        </h3>
-        {!editMode ? (
-          <>
-            <p>
-              <strong>Phone:</strong> {user?.phone}
-            </p>
-            <p>
-              <strong>Address:</strong> {user?.address}
-            </p>
-            <button
-              onClick={() => setEditMode(true)}
-              className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
-            >
-              Edit Profile
-            </button>
-          </>
-        ) : (
-          <form onSubmit={handleSubmit} className="mt-4 space-y-2">
-            <input
-              type="text"
-              name="name"
-              value={userData.name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Name"
-            />
-            <input
-              type="email"
-              name="email"
-              value={userData.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Email"
-            />
-            <input
-              type="text"
-              name="phone"
-              value={userData.phone}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Phone"
-            />
-            <input
-              type="text"
-              name="address"
-              value={userData.address}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Address"
-            />
-
-            {/* Image Upload */}
-            <div>
-              <label className="block font-semibold text-gray-700">
-                Profile Picture
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="mt-2"
-              />
-            </div>
-
-            <div className="flex space-x-2">
-              <button
-                type="submit"
-                className="bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                onClick={() => setEditMode(false)}
-                className="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        )}
+  
+      <div className="w-full md:w-2/3 bg-white p-6 shadow-lg rounded-lg border border-gray-200">
+        <h2 className="text-xl font-semibold text-black mb-4">Your Bookings</h2>
+        <UserBookings userId={userId} />
       </div>
     </div>
   );

@@ -13,3 +13,15 @@ export const bookHotel = async (bookingData) => {
         throw error;
     }
 };
+
+
+export const fetchUserBookings = async () => {
+    try {
+        const response = await API.get("/api/bookings/userBookings");
+        return response.data.bookings;
+    } catch (error) {
+        console.error("Error fetching bookings:", error.response?.data || error.message);
+        toast.error(error.response?.data?.message || "Failed to fetch bookings.");
+        return [];
+    }
+};

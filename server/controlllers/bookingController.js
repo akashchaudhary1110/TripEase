@@ -34,3 +34,20 @@ exports.getAllBookings = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+
+exports.getUserBookings = async (req, res) => {
+    try {
+        const userId = req.user._id; // Get user ID from middleware
+
+        const bookings = await BookingDetails.find({ userID: userId });
+
+        if (!bookings.length) {
+            return res.status(200).json({ message: "No bookings found.", bookings: [] });
+        }
+
+        res.status(200).json({ bookings });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
