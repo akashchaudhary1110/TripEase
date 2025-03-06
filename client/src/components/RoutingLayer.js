@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
+import { useEffect, useRef } from 'react'
+import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
@@ -35,7 +35,6 @@ const RoutingLayer = ({ start, end, directionCoordinates ,yellowMarkerIcon }) =>
         altLineOptions: { styles: [{ opacity: 0 }] },
         router: L.Routing.osrmv1({ serviceUrl: "https://router.project-osrm.org/route/v1" }),
         show: false, // ✅ Hide text-based directions
-        routeWhileDragging: false, // ✅ Prevents manual dragging of route
         formatter: new L.Routing.Formatter({ show: false }), // ✅ Ensure no text instructions
       }).addTo(map);
 

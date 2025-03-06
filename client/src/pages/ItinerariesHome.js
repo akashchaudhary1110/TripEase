@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { FaPlus, FaEye, FaTrash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+
 import { fetchItineraries } from "../services/itineraryService"; // Import service
 import ItineraryList from "../components/ItineraryList";
 
 const ItineraryHome = () => {
   const [itineraries, setItineraries] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadItineraries = async () => {
@@ -29,8 +26,7 @@ const ItineraryHome = () => {
           Select an Itinerary
         </h2>
 
-  
-     <ItineraryList itineraries={itineraries} />  
+        <ItineraryList itineraries={itineraries} />
       </div>
     </div>
   );

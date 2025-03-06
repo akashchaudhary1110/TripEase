@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import bgImage from "../images/heroIMG5.jpg";
 import { toast } from "react-toastify";
 import { signUpFunction } from "../services/auth";
