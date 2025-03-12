@@ -13,9 +13,9 @@ const BookingDetailsSchema = new mongoose.Schema({
     hotelName: { type: String, required: true },
     startingTime: { type: String, required: true },
     endTime: { type: String, required: true },
-    amountPaid: { type: Number,},
+    amountPaid: { type: Number, required: true },
     personCount: { type: Number, required: true },
-    personsDetail: { type: [PersonSchema], required: true } // Array of persons
+    personsDetail: { type: [PersonSchema], required: true, default: [] } // 👈 Ensure a default empty array
 });
 
 module.exports = mongoose.model("BookingDetails", BookingDetailsSchema);

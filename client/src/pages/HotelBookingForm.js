@@ -11,9 +11,28 @@ const HotelBookingForm = ({
   handlePersonsCountChange,
   handleSubmit,
   personsDetail,
-  handleChange,
+  // handleChange,
+  setIndex,
+  validateForm,
+  setPersonsDetail,
   nights,
 }) => {
+
+
+
+  const handleChange = (index, field, value, name) => {
+    setIndex(index);
+    // setKeyword(field);
+   
+    const updatedPersons = [...personsDetail];
+
+    updatedPersons[index][field] = value;
+    setPersonsDetail(updatedPersons);
+    setTimeout(()=>{
+      validateForm(index);
+    },2000)
+  };
+  
   return (
     <div className="p-6 border rounded shadow-lg max-w-lg mx-auto bg-white text-black">
       <h2 className="text-2xl font-bold mb-4 text-yellow-500">
@@ -60,7 +79,7 @@ const HotelBookingForm = ({
             index={index}
             errors={errors[index]}
             person={person}
-            handleChange={handleChange}
+            handleChange={handleChange} personsDetail={personsDetail[index]}
           />
         ))}
 

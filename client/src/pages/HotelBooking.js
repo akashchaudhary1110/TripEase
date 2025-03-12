@@ -5,6 +5,7 @@ import { bookHotel } from "../services/hotelBooking";
 import GlobalContext from "../utils/GlobalContext";
 import useHotelBookingValidation from "../hooks/useHotelBookingValidation";
 import HotelBookingForm from "./HotelBookingForm";
+import HotelBookingValidation from "../utils/HotelBookingValidator";
 
 const HotelBooking = () => {
   const { hotelName } = useParams();
@@ -28,12 +29,15 @@ const navigate = useNavigate();
     Index
   );
 
-  useEffect(() => {
-    console.log(
-      errors,
-      "errors for the checking after validatingForm function in the handlechange"
-    );
-  });
+  const [validator, setValidator] = useState(new HotelBookingValidation(personsDetail));
+
+  // useEffect(() => {
+  //   console.log(
+  //     validator,
+  //     "errors for the checking after validatingForm function in the handlechange"
+  //   );
+  //   // console.log(personsDetail,"checking person detail on every render")
+  // });
   const bookingData = {
     hotelName,
     startingTime: dates.from,
@@ -66,15 +70,7 @@ const navigate = useNavigate();
     );
   };
 
-  const handleChange = (index, field, value, name) => {
-    setIndex(index);
-    // setKeyword(field);
-    validateForm(index);
-    const updatedPersons = [...personsDetail];
 
-    updatedPersons[index][field] = value;
-    setPersonsDetail(updatedPersons);
-  };
 
   const hasErrors = () => {
     return errors.some((errorObj) =>
@@ -85,6 +81,8 @@ const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     validateForm();
+    // validator.validateAll();
+    // console.log(validator.errors,"errors of the all function");
     if(!dates.from || !dates.to){
       toast.error("please select the date first both starting and ending");
       return;
@@ -92,6 +90,7 @@ const navigate = useNavigate();
 
     if (hasErrors()) {
       console.log("Errors found! Submission failed.");
+      toast.error("Please fill the complete form and correctly!")
     } else {
       try {
         console.log(bookingData, "booking Data");
@@ -111,14 +110,17 @@ const navigate = useNavigate();
       calculateDuration={calculateDuration}
       dates={dates}
       errors={errors}
-      handleChange={handleChange}
+      // handleChange={handleChange}
+
       handlePersonsCountChange={handlePersonsCountChange}
       handleSubmit={handleSubmit}
       hotelName={hotelName}
       nights={nights}
       personsCount={personsCount}
       personsDetail={personsDetail}
-      setDates={setDates}
+      validator={validator}
+      setValidator={setValidator}
+      setDates={setDates} setIndex={setIndex} setPersonsDetail={setPersonsDetail} validateForm={validateForm} 
     />
   );
 };
