@@ -19,7 +19,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await loginfunction(formData);
-      console.log(response, "response");
+      
 
       if (response.status >= 200 && response.status < 300) {
         toast.success("Login successful!");

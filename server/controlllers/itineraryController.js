@@ -1,12 +1,12 @@
 const Itinerary = require("../models/Itenerary");
 
-// Get all itineraries of the logged-in user
+
 exports.getAllItineraries = async (req, res) => {
     try {
-        const userId = req.user.id; // Extract logged-in user ID
+        const userId = req.user.id; 
 
-        const itineraries = await Itinerary.find({ user: userId }) // Fetch only the user's itineraries
-            .populate("user", "name email"); // Populate user details
+        const itineraries = await Itinerary.find({ user: userId }) 
+            .populate("user", "name email"); 
 
         res.json(itineraries);
     } catch (error) {
@@ -15,12 +15,11 @@ exports.getAllItineraries = async (req, res) => {
 };
 
 
-// Create a new itinerary
+
 exports.createItinerary = async (req, res) => {
     try {
         const { title } = req.body;
-        const userId = req.user.id; // Extract userId from req.user
-
+        const userId = req.user.id; 
         if (!title) {
             return res.status(400).json({ message: "Title is required" });
         }
@@ -35,7 +34,7 @@ exports.createItinerary = async (req, res) => {
 };
 
 
-// Add a place to an itinerary
+
 exports.addPlaceToItinerary = async (req, res) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id);
@@ -57,7 +56,7 @@ exports.addPlaceToItinerary = async (req, res) => {
     }
 };
 
-// Get a specific itinerary
+
 exports.getItinerary = async (req, res) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id).populate("user", "name email");
@@ -69,7 +68,7 @@ exports.getItinerary = async (req, res) => {
     }
 };
 
-// Update itinerary order
+
 exports.reorderItinerary = async (req, res) => {
     try {
         const { newOrder } = req.body;
@@ -84,7 +83,7 @@ exports.reorderItinerary = async (req, res) => {
     }
 };
 
-// Delete an itinerary
+
 exports.deleteItinerary = async (req, res) => {
     try {
         const itinerary = await Itinerary.findById(req.params.id);
@@ -92,7 +91,7 @@ exports.deleteItinerary = async (req, res) => {
             return res.status(404).json({ message: "Itinerary not found" });
         }
 
-        // Ensure only the owner can delete their itinerary
+
         if (itinerary.user.toString() !== req.user.id) {
             return res.status(403).json({ message: "Not authorized to delete this itinerary" });
         }

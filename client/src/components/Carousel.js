@@ -27,7 +27,7 @@ const Carousel = () => {
     const interval = setInterval(() => {
       nextSlide();
     }, 8000);
-
+    
     return () => clearInterval(interval);
   }, [currentIndex]);
 

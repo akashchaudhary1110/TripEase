@@ -9,19 +9,20 @@ const NavbarContainer = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
   const menuRef = useRef(null);
- 
 
+  // ✅ Corrected handleClickOutside logic
   const handleClickOutside = useCallback((event) => {
     if (
+      profileMenuOpen &&
       profileMenuRef.current &&
-      !profileMenuRef.current.contains(event.target) &&
-      menuRef.current &&
-      !menuRef.current.contains(event.target)
+      !profileMenuRef.current.contains(event.target)
     ) {
       setProfileMenuOpen(false);
+    }
+    if (menuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
       setMenuOpen(false);
     }
-  }, []);
+  }, [profileMenuOpen, menuOpen]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -31,7 +32,7 @@ const NavbarContainer = () => {
   }, [handleClickOutside]);
 
   const handleProfileClick = () => {
-    setProfileMenuOpen(!profileMenuOpen);
+    setProfileMenuOpen((prev) => !prev);
   };
 
   const handleSignOut = () => {
@@ -57,17 +58,14 @@ const NavbarContainer = () => {
         setMenuOpen={setMenuOpen}
       />
 
+      {/* ✅ ProfileMenu now wrapped in a div with ref */}
       {profileMenuOpen && (
-        <ProfileMenu
-          profileMenuRef={profileMenuRef}
-          closeProfileMenu={closeProfileMenu}
-          handleSignOut={handleSignOut}
-        />
+        <div ref={profileMenuRef}>
+          <ProfileMenu closeProfileMenu={closeProfileMenu} handleSignOut={handleSignOut} />
+        </div>
       )}
 
-      {menuOpen && (
-        <NavbarDrawer closeMobileMenu={closeMobileMenu} menuRef={menuRef} />
-      )}
+      {menuOpen && <NavbarDrawer closeMobileMenu={closeMobileMenu} menuRef={menuRef} />}
     </nav>
   );
 };
